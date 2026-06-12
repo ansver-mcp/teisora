@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teisora – AI paieška Lietuvos teismų nutarimuose</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── FATHOM DESIGN TOKENS (tiksliai iš jų fathom.css) ─── */
+    :root {
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'Courier New', ui-monospace, monospace;
+
+      --font-weight:       400;   /* jų 380 */
+      --font-weight-light: 300;   /* jų 310 */
+      --font-weight-h:     500;   /* jų 460 */
+      --font-weight-bold:  600;   /* jų 510 */
+
+      --time: 0.2s;
+
+      --leading-xs: 1;
+      --leading-sm: 1.4;
+      --leading:    1.6;
+
+      --font-size-xxs: 0.75rem;
+      --font-size-xs:  0.8rem;
+      --font-size-sm:  0.875rem;
+      --font-size-alt: 0.925rem;
+      --font-size:     1.05rem;
+      --font-size-lg:  1.125rem;
+      --font-size-h4:  1.375rem;
+      --font-size-h3:  1.875rem;
+      --font-size-h2:  2.125rem;
+      --font-size-h1:  3rem;
+
+      --space-xs:   0.025rem;
+      --space-sm:   0.25rem;
+      --space:      0.5rem;
+      --space-md:   0.675rem;
+      --space-lg:   1rem;
+      --space-xl:   1.5rem;
+      --space-2x:   3rem;
+      --space-3x:   4rem;
+      --space-4x:   6rem;
+      --space-5x:  10rem;
+
+      --border-sm: 1px;
+      --border:    1px;
+      --border-md: 2px;
+      --border-lg: 4px;
+
+      --border-rad-sm:  0.3rem;
+      --border-rad:     0.5rem;
+      --border-rad-full: 100rem;
+
+      --rapper:    68rem;
+      --rapper-sm: 32rem;
+      --rapper-md: 48rem;
+
+      /* FATHOM EXACT COLORS */
+      --gray-0:  hsla(0,   0%,  100%, 1);
+      --gray-1:  hsla(140, 8%,   97%, 1);
+      --gray-2:  hsla(140, 6%,   94%, 1);
+      --gray-3:  hsla(140, 6%,   90%, 1);
+      --gray-4:  hsla(140, 6%,   82%, 1);
+      --gray-5:  hsla(140, 3%,   70%, 1);
+      --gray-6:  hsla(140, 3%,   55%, 1);
+      --gray-7:  hsla(140, 3%,   40%, 1);
+      --gray-8:  hsla(140, 6%,   20%, 1);
+      --gray-9:  hsla(140, 6%,   15%, 1);
+      --gray-10: hsla(140, 6%,   10%, 1);
+      --gray-11: hsla(140, 10%,   5%, 1);
+
+      --purple-2:    hsla(249, 100%, 96%, 1);
+      --purple-3:    hsla(250, 100%, 92%, 1);
+      --purple-4:    hsla(250, 100%, 87%, 1);
+      --purple-5:    hsla(250, 100%, 82%, 1);
+      --purple:      hsla(250, 100%, 75%, 1);
+      --purple-7:    hsla(250, 100%, 71%, 1);
+      --purple-8:    hsla(250, 100%, 65%, 1);
+      --purple-9:    hsla(250,  70%, 50%, 1);
+      --purple-10:   hsla(250,  70%, 35%, 1);
+      --purple-fade: hsla(250, 100%, 75%, .2);
+
+      --green:       hsla(140, 60%, 50%, 1);
+      --green-fade:  hsla(140, 60%, 50%, .2);
+
+      --drop: drop-shadow(0 2px 2px hsla(140,5%,15%,.2));
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box; margin: 0; padding: 0;
+      list-style: none; text-decoration: none;
+      font-style: normal;
+    }
+
+    html {
+      font-family: var(--font-sans);
+      font-size: var(--font-size);
+      font-weight: var(--font-weight);
+      line-height: var(--leading);
+      color: var(--gray-11);
+      background: var(--gray-0);
+      scroll-behavior: smooth;
+      scroll-padding-top: 62px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── TYPOGRAPHY ──────────────────────────────────── */
+    h1, .h1 { font-size: var(--font-size-h1); letter-spacing: -0.04rem; }
+    h2, .h2 { font-size: var(--font-size-h2); letter-spacing: -0.03rem; }
+    h3, .h3 { font-size: var(--font-size-h3); letter-spacing: -0.025rem; }
+    h4, .h4 { font-size: var(--font-size-h4); letter-spacing: -0.018rem; }
+
+    h1, h2, h3, h4 {
+      font-weight: var(--font-weight-h);
+      line-height: var(--leading-xs);
+      color: var(--gray-11);
+    }
+
+    p { line-height: var(--leading); color: var(--gray-7); }
+
+    /* ── RAPPER (fathom container) ──────────────────── */
+    .rapper {
+      margin: auto; display: block;
+      width: 100%; max-width: var(--rapper);
+      padding: 0 var(--space-xl);
+    }
+    .rapper.sm { max-width: var(--rapper-sm); }
+    .rapper.md { max-width: var(--rapper-md); }
+
+    /* ── BUTTON BASE (tiksliai iš fathom.css) ─────── */
+    .button {
+      display: inline-block;
+      padding: var(--space) var(--space-lg);
+      border-radius: var(--border-rad-sm);
+      border: var(--border) solid transparent;
+      background: var(--purple-7);
+      color: var(--gray-1);
+      font-family: var(--font-sans);
+      font-size: var(--font-size);
+      font-weight: var(--font-weight);
+      line-height: var(--leading-sm);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background var(--time), color var(--time), border-color var(--time);
+      text-decoration: none !important;
+    }
+    .button:hover {
+      background: var(--purple-8);
+      color: var(--gray-0);
+    }
+    .button.lg { font-size: var(--font-size-lg); }
+    .button.sm { font-size: var(--font-size-sm); padding: var(--space-sm) var(--space-md); }
+
+    /* .button.warn – secondary gray */
+    .button.warn {
+      background: var(--gray-2);
+      color: var(--gray-7);
+      border: var(--border) solid transparent;
+    }
+    .button.warn:hover { background: var(--gray-3); color: var(--gray-11); }
+
+    /* .button.outline */
+    .button.outline {
+      background: transparent;
+      border: var(--border-sm) solid var(--gray-4);
+      color: var(--gray-8);
+    }
+    .button.outline:hover { border-color: var(--gray-6); color: var(--gray-11); }
+
+    /* .button.alt – dark */
+    .button.alt {
+      background: var(--gray-9);
+      color: var(--gray-1);
+    }
+    .button.alt:hover { background: var(--gray-8); color: var(--gray-0); }
+
+    /* ── BADGE-BUTTON (pill eyebrow tags) ─────────── */
+    .badge-button {
+      display: inline-block;
+      border-radius: var(--border-rad-full);
+      padding: var(--space-sm) var(--space-lg);
+      background: var(--gray-2);
+      color: var(--gray-10);
+      font-size: var(--font-size-sm);
+      white-space: nowrap;
+      text-decoration: none !important;
+      transition: background var(--time), color var(--time);
+      margin-bottom: var(--space-sm);
+    }
+    .badge-button.alt {
+      background: var(--purple-2);
+      color: var(--purple-7);
+    }
+
+    /* ── ELEMENT (input / textarea base) ──────────── */
+    .element {
+      display: block; width: 100%;
+      padding: var(--space) var(--space-lg);
+      border-radius: var(--border-rad-sm);
+      border: var(--border) solid var(--gray-6);
+      background: var(--gray-0);
+      font-family: var(--font-sans);
+      font-size: var(--font-size);
+      font-weight: var(--font-weight);
+      color: var(--gray-11);
+      line-height: var(--leading-sm);
+      transition: border var(--time), box-shadow var(--time);
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .element::placeholder { color: var(--gray-5); opacity: 0.8; }
+    .element:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 var(--border-lg) var(--gray-3);
+    }
+
+    /* ── NAV (.morph-nav style) ───────────────────── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--gray-0);
+      border-bottom: var(--border-sm) solid var(--gray-3);
+    }
+    .site-header {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 62px;
+    }
+    .header-logo {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-bold);
+      color: var(--gray-11);
+      letter-spacing: -0.025rem;
+    }
+    .header-logo span { color: var(--purple-7); }
+
+    .morph-nav { display: inline-flex; align-items: center; }
+    .morph-nav-items {
+      display: flex; align-items: center; gap: var(--space-xl);
+    }
+    .morph-nav-link {
+      font-size: var(--font-size-alt);
+      color: var(--gray-7);
+      font-weight: var(--font-weight);
+      padding: var(--space) 0;
+      display: inline-flex; align-items: center;
+      line-height: var(--leading-sm);
+      white-space: nowrap;
+      transition: color var(--time);
+    }
+    .morph-nav-link:hover { color: var(--gray-11); }
+
+    .header-right { display: flex; align-items: center; gap: var(--space); }
+    .sign-in {
+      font-size: var(--font-size-sm);
+      color: var(--gray-7);
+      padding: var(--space-sm) var(--space);
+      border-radius: var(--border-rad-sm);
+      transition: color var(--time);
+    }
+    .sign-in:hover { color: var(--gray-11); }
+
+    /* ── SECTIONS ─────────────────────────────────── */
+    section { padding: var(--space-4x) 0; }
+    section.alt { background: var(--gray-1); border-top: var(--border-sm) solid var(--gray-3); border-bottom: var(--border-sm) solid var(--gray-3); }
+
+    /* ── HERO ─────────────────────────────────────── */
+    #produktas {
+      padding-top: calc(62px + var(--space-3x));
+      padding-bottom: var(--space-3x);
+      background: var(--gray-0);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4x);
+      align-items: center;
+    }
+
+    /* Left column */
+    .hero-left h1 {
+      font-size: clamp(2rem, 4vw, var(--font-size-h1));
+      margin-bottom: var(--space-xl);
+      line-height: 1.05;
+    }
+    .hero-news {
+      display: inline-flex; align-items: center; gap: var(--space);
+      margin-bottom: var(--space-xl);
+      font-size: var(--font-size-sm);
+      color: var(--gray-7);
+    }
+    .hero-news .new-tag {
+      background: var(--purple-2); color: var(--purple-8);
+      font-size: var(--font-size-xxs); font-weight: var(--font-weight-bold);
+      padding: 0.1rem 0.5rem; border-radius: var(--border-rad-full);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+    .hero-left p {
+      font-size: var(--font-size);
+      color: var(--gray-6);
+      line-height: var(--leading);
+      margin-bottom: var(--space-2x);
+      max-width: 32rem;
+    }
+    .hero-btns {
+      display: flex; gap: var(--space); flex-wrap: wrap; align-items: center;
+      margin-bottom: var(--space-lg);
+    }
+    .btn-demo {
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      font-size: var(--font-size); font-weight: var(--font-weight);
+      color: var(--gray-7);
+      padding: var(--space) var(--space-lg);
+      transition: color var(--time);
+    }
+    .btn-demo:hover { color: var(--gray-11); }
+    .trust-signals {
+      display: flex; gap: var(--space-xl); flex-wrap: wrap;
+    }
+    .trust-signals span {
+      display: flex; align-items: center; gap: var(--space-sm);
+      font-size: var(--font-size-xs); color: var(--gray-6);
+    }
+    .trust-signals span::before {
+      content: '';
+      display: inline-block; width: 0.9rem; height: 0.9rem;
+      border: 1.5px solid var(--gray-4); border-radius: var(--border-rad-full);
+      flex-shrink: 0;
+    }
+
+    /* Right column */
+    .hero-right {
+      display: flex; flex-direction: column; gap: var(--space-lg);
+    }
+    .hero-mockup {
+      background: var(--gray-1);
+      border: var(--border-sm) solid var(--gray-3);
+      border-radius: var(--border-rad);
+      overflow: hidden;
+      box-shadow: 0 8px 30px hsla(0,0%,0%,.08), 0 1px 4px hsla(0,0%,0%,.04);
+    }
+    .mockup-bar {
+      background: var(--gray-0);
+      border-bottom: var(--border-sm) solid var(--gray-3);
+      padding: var(--space-md) var(--space-lg);
+      display: flex; align-items: center; gap: var(--space);
+    }
+    .mockup-dot {
+      width: 0.55rem; height: 0.55rem;
+      border-radius: var(--border-rad-full);
+      background: var(--gray-3);
+    }
+    .mockup-title {
+      font-size: var(--font-size-xs); color: var(--gray-5);
+      flex: 1; text-align: center;
+    }
+    .mockup-body {
+      padding: var(--space-xl);
+      min-height: 220px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gray-5); font-size: var(--font-size-xs); text-align: center;
+    }
+    .mockup-table { width: 100%; }
+    .mockup-table th {
+      font-size: var(--font-size-xxs); font-weight: var(--font-weight-bold);
+      color: var(--gray-5); text-transform: uppercase; letter-spacing: 0.06em;
+      padding: var(--space-sm) var(--space-lg) var(--space-sm) 0;
+      text-align: left; border-bottom: var(--border-sm) solid var(--gray-3);
+    }
+    .mockup-table td {
+      font-size: var(--font-size-sm); color: var(--gray-8);
+      padding: var(--space-md) var(--space-lg) var(--space-md) 0;
+      border-bottom: var(--border-sm) solid var(--gray-2);
+    }
+    .mockup-table td:not(:first-child) { color: var(--gray-6); }
+    .mockup-table tr:last-child td { border-bottom: none; }
+    .td-url { color: var(--purple-7) !important; font-weight: var(--font-weight-h); }
+
+    /* Testimonial */
+    .hero-quote {
+      background: var(--gray-1);
+      border: var(--border-sm) solid var(--gray-3);
+      border-radius: var(--border-rad);
+      padding: var(--space-xl);
+    }
+    .hero-quote blockquote {
+      font-size: var(--font-size-sm); color: var(--gray-7);
+      line-height: var(--leading); margin-bottom: var(--space-lg);
+    }
+    .hero-quote blockquote::before { content: '\201C'; color: var(--purple-5); font-size: 1.5em; line-height: 0; vertical-align: -0.3em; margin-right: 0.1em; }
+    .quote-author { display: flex; align-items: center; gap: var(--space-lg); }
+    .quote-av {
+      width: 2rem; height: 2rem; border-radius: var(--border-rad-full);
+      background: var(--gray-3); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+    .quote-name { font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); color: var(--gray-9); }
+    .quote-org  { font-size: var(--font-size-xxs); color: var(--gray-6); }
+
+    /* ── STATS ────────────────────────────────────── */
+    .stats-band {
+      background: var(--gray-1);
+      border-top: var(--border-sm) solid var(--gray-3);
+      border-bottom: var(--border-sm) solid var(--gray-3);
+      padding: var(--space-xl) 0;
+    }
+    .stats-row {
+      display: flex; gap: var(--space-3x); flex-wrap: wrap; align-items: center;
+    }
+    .stat-item strong {
+      display: block;
+      font-size: var(--font-size-h4);
+      font-weight: var(--font-weight-h);
+      color: var(--gray-11);
+      letter-spacing: -0.025rem;
+      line-height: var(--leading-xs);
+    }
+    .stat-item span {
+      font-size: var(--font-size-xs);
+      color: var(--gray-6);
+    }
+
+    /* ── HOW IT WORKS ─────────────────────────────── */
+    #kaip-veikia { background: var(--gray-0); }
+    .section-head { margin-bottom: var(--space-3x); }
+    .section-head h2 { margin-bottom: var(--space-lg); }
+    .section-head p { font-size: var(--font-size-lg); max-width: 34rem; }
+
+    /* Problem / Solution cards */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-lg); }
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); }
+
+    .card {
+      padding: var(--space-2x);
+      border: var(--border-sm) solid var(--gray-3);
+      border-radius: var(--border-rad);
+      background: var(--gray-0);
+    }
+    .card.dark {
+      background: var(--gray-11);
+      border-color: var(--gray-10);
+    }
+    .card-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--gray-5);
+      display: block;
+      margin-bottom: var(--space-lg);
+    }
+    .card.dark .card-label { color: var(--purple-5); }
+    .card h3 { font-size: var(--font-size-h4); margin-bottom: var(--space-lg); }
+    .card.dark h3 { color: var(--gray-1); }
+    .card p { font-size: var(--font-size-sm); line-height: var(--leading); color: var(--gray-6); }
+    .card.dark p { color: var(--gray-5); }
+
+    /* Step cards */
+    .step-card {
+      padding: var(--space-xl);
+      border: var(--border-sm) solid var(--gray-3);
+      border-radius: var(--border-rad);
+      background: var(--gray-1);
+    }
+    .step-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem;
+      background: var(--purple-2); color: var(--purple-8);
+      border-radius: var(--border-rad-sm);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-lg);
+    }
+    .step-card h4 { margin-bottom: var(--space); font-size: var(--font-size-h4); }
+    .step-card p { font-size: var(--font-size-sm); color: var(--gray-6); }
+
+    /* ── PRICING ──────────────────────────────────── */
+    #kaina { background: var(--gray-1); }
+    .pricing-wrap { max-width: 26rem; margin: 0 auto; }
+    .plan-card {
+      background: var(--gray-0);
+      border: var(--border-sm) solid var(--gray-3);
+      border-radius: var(--border-rad);
+      padding: var(--space-2x);
+      text-align: center;
+      box-shadow: 0 8px 30px hsla(0,0%,0%,.06), 0 1px 4px hsla(0,0%,0%,.03);
+    }
+    .plan-name {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      color: var(--gray-6);
+      margin-bottom: var(--space-lg);
+    }
+    .plan-price { line-height: 1; margin-bottom: var(--space-sm); }
+    .plan-price .sym {
+      font-size: var(--font-size-h4);
+      font-weight: var(--font-weight-h);
+      color: var(--gray-7);
+      vertical-align: 14px;
+      line-height: 1;
+    }
+    .plan-price .amt {
+      font-size: 4rem;
+      font-weight: var(--font-weight-h);
+      color: var(--gray-11);
+      letter-spacing: -0.05rem;
+    }
+    .plan-period {
+      font-size: var(--font-size-sm);
+      color: var(--gray-5);
+      margin-bottom: var(--space-2x);
+    }
+    .plan-list { text-align: left; margin-bottom: var(--space-2x); }
+    .plan-list li {
+      display: flex; align-items: flex-start; gap: var(--space);
+      padding: var(--space-md) 0;
+      font-size: var(--font-size-sm);
+      color: var(--gray-7);
+      border-bottom: var(--border-sm) solid var(--gray-2);
+    }
+    .plan-list li:last-child { border-bottom: none; }
+    .plan-list li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: var(--font-weight-bold);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── ABOUT ────────────────────────────────────── */
+    #apie-mus { background: var(--gray-0); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4x); align-items: start; }
+    .about-text h2 { margin-bottom: var(--space-xl); }
+    .about-text p { font-size: var(--font-size-sm); margin-bottom: var(--space-lg); }
+    .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space); }
+    .team-card {
+      padding: var(--space-xl);
+      background: var(--gray-1);
+      border: var(--border-sm) solid var(--gray-3);
+      border-radius: var(--border-rad);
+    }
+    .team-av {
+      width: 2.25rem; height: 2.25rem;
+      background: var(--gray-2); border-radius: var(--border-rad-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; margin-bottom: var(--space-lg);
+    }
+    .team-card h4 { font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); margin-bottom: var(--space-sm); }
+    .team-card p { font-size: var(--font-size-xs); color: var(--gray-6); line-height: var(--leading-sm); }
+
+    /* ── FOOTER ───────────────────────────────────── */
+    footer {
+      background: var(--gray-1);
+      border-top: var(--border-sm) solid var(--gray-3);
+      padding: var(--space-2x) 0;
+    }
+    .footer-row {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: var(--space-lg);
+    }
+    .f-logo { font-size: var(--font-size); font-weight: var(--font-weight-bold); color: var(--gray-11); letter-spacing: -0.02rem; }
+    .f-logo span { color: var(--purple-7); }
+    .f-links { display: flex; gap: var(--space-xl); flex-wrap: wrap; }
+    .f-links a { font-size: var(--font-size-sm); color: var(--gray-6); transition: color var(--time); }
+    .f-links a:hover { color: var(--gray-11); }
+    .f-copy { font-size: var(--font-size-xs); color: var(--gray-5); }
+
+    /* ── MODAL OVERLAY (pure CSS :target) ────────── */
+    .overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: hsla(140, 10%, 5%, .55);
+      backdrop-filter: blur(2px);
+      align-items: center; justify-content: center; padding: var(--space-lg);
+    }
+    .overlay:target { display: flex; }
+
+    .modal-box {
+      background: var(--gray-0);
+      border: var(--border-sm) solid var(--gray-3);
+      border-radius: var(--border-rad);
+      padding: var(--space-2x);
+      width: 100%; max-width: 26rem;
+      position: relative;
+      box-shadow: 0 16px 48px hsla(140,10%,5%,.15), 0 2px 8px hsla(140,10%,5%,.08);
+    }
+    .modal-x {
+      position: absolute; top: var(--space-lg); right: var(--space-lg);
+      width: 1.75rem; height: 1.75rem;
+      background: var(--gray-2); border-radius: var(--border-rad-sm);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gray-6); font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      transition: background var(--time);
+    }
+    .modal-x:hover { background: var(--gray-3); }
+    .modal-box h2 { font-size: var(--font-size-h4); margin-bottom: var(--space-sm); }
+    .modal-sub { font-size: var(--font-size-sm); color: var(--gray-6); margin-bottom: var(--space-2x); }
+
+    .btn-google {
+      display: flex; align-items: center; justify-content: center; gap: var(--space-md);
+      width: 100%; padding: var(--space) var(--space-lg);
+      border: var(--border-sm) solid var(--gray-3);
+      border-radius: var(--border-rad-sm);
+      font-size: var(--font-size-sm); font-weight: var(--font-weight);
+      color: var(--gray-7); background: var(--gray-0);
+      margin-bottom: var(--space-lg);
+      transition: border-color var(--time), background var(--time);
+    }
+    .btn-google:hover { border-color: var(--gray-5); background: var(--gray-1); }
+
+    .sep {
+      display: flex; align-items: center; gap: var(--space-lg);
+      font-size: var(--font-size-xs); color: var(--gray-5);
+      margin: var(--space-lg) 0;
+    }
+    .sep::before, .sep::after { content: ''; flex: 1; height: 1px; background: var(--gray-3); }
+
+    .field { margin-bottom: var(--space-lg); }
+    .field label {
+      display: block; font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold); color: var(--gray-8);
+      margin-bottom: var(--space-sm);
+    }
+    .modal-foot { font-size: var(--font-size-xs); color: var(--gray-5); text-align: center; margin-top: var(--space-lg); }
+    .modal-foot a { color: var(--gray-7); font-weight: var(--font-weight-bold); }
+
+    /* Dashboard */
+    #dashboard .modal-box { max-width: 34rem; max-height: 92vh; overflow-y: auto; }
+    .dash-s { margin-bottom: var(--space-xl); }
+    .dash-label {
+      font-size: var(--font-size-xxs); font-weight: var(--font-weight-bold);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gray-5); display: block; margin-bottom: var(--space-md);
+    }
+    .code-box {
+      background: var(--gray-11); color: var(--purple-4);
+      font-family: var(--font-mono); font-size: var(--font-size-xs);
+      padding: var(--space-lg); border-radius: var(--border-rad-sm);
+      word-break: break-all; line-height: var(--leading);
+    }
+    .usage-track { background: var(--gray-2); border-radius: var(--border-rad-full); height: 6px; margin-top: var(--space); overflow: hidden; }
+    .usage-fill { background: var(--green); height: 100%; width: 23%; border-radius: var(--border-rad-full); }
+    .usage-meta { display: flex; justify-content: space-between; font-size: var(--font-size-xs); color: var(--gray-6); margin-top: var(--space-sm); }
+    .cfg-list { counter-reset: c; }
+    .cfg-list li {
+      counter-increment: c;
+      display: flex; gap: var(--space-md); align-items: flex-start;
+      padding: var(--space-sm) 0; font-size: var(--font-size-sm); color: var(--gray-7); line-height: var(--leading-sm);
+    }
+    .cfg-list li::before {
+      content: counter(c);
+      background: var(--gray-2); color: var(--gray-7);
+      min-width: 1.3rem; height: 1.3rem;
+      border-radius: var(--border-rad-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--font-size-xxs); font-weight: var(--font-weight-bold); flex-shrink: 0;
+    }
+    code {
+      background: var(--gray-2); color: var(--gray-8);
+      padding: 0.08rem 0.3rem; border-radius: var(--border-rad-sm);
+      font-size: var(--font-size-xs); font-family: var(--font-mono);
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 720px) {
+      .hero-grid, .two-col, .three-col, .about-grid, .team-grid { grid-template-columns: 1fr; }
+      .hero-grid { gap: var(--space-2x); }
+      .about-grid { gap: 2rem; }
+      .morph-nav-items .morph-nav-link:not(:last-child) { display: none; }
+      .stats-row { gap: var(--space-xl); }
+      .trust-signals { gap: var(--space-lg); }
+    }
+    @media (max-width: 480px) {
+      :root { --space-4x: 4rem; }
+      .rapper { padding: 0 var(--space-lg); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ════════════════════════════════════════════════════ -->
+<header>
+  <div class="rapper">
+    <div class="site-header">
+      <a href="#produktas" class="header-logo">Teiso<span>ra</span></a>
+
+      <nav class="morph-nav">
+        <div class="morph-nav-items">
+          <a href="#produktas"  class="morph-nav-link">Produktas</a>
+          <a href="#kaip-veikia" class="morph-nav-link">Kaip veikia</a>
+          <a href="#kaina"      class="morph-nav-link">Kaina</a>
+          <a href="#apie-mus"   class="morph-nav-link">Apie mus</a>
+        </div>
+      </nav>
+
+      <div class="header-right">
+        <a href="#dashboard"   class="sign-in">Prisijungti</a>
+        <a href="#registracija" class="button sm">Registruotis</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ HERO ══════════════════════════════════════════════════════ -->
+<section id="produktas">
+  <div class="rapper">
+    <div class="hero-grid">
+
+      <!-- LEFT: text -->
+      <div class="hero-left">
+        <h1>Teismų nutarimų paieška, kuri iš tiesų veikia</h1>
+
+        <div class="hero-news">
+          <span class="new-tag">Nauja</span>
+          Kontekstinė AI paieška per MCP serverį
+        </div>
+
+        <p>Nustok gaišti laiką ieškodamas precedentų rankiniu būdu. Teisora suteikia tiesioginę AI prieigą prie 1,2M+ Lietuvos teismų nutarimų – tiesiog per Claude.</p>
+
+        <div class="hero-btns">
+          <a href="#registracija" class="button lg">Pradėti naudoti →</a>
+          <a href="#kaip-veikia"  class="btn-demo">Kaip tai veikia ↗</a>
+        </div>
+
+        <div class="trust-signals">
+          <span>Greita sąranka</span>
+          <span>7 dienų nemokamas bandymas</span>
+          <span>Jokių įsipareigojimų</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: mockup + quote -->
+      <div class="hero-right">
+        <div class="hero-mockup">
+          <div class="mockup-bar">
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+            <span class="mockup-title">Teisora – paieškos rezultatai</span>
+          </div>
+          <div class="mockup-body">
+            <table class="mockup-table">
+              <thead>
+                <tr>
+                  <th>Nutarimas</th>
+                  <th>Instancija</th>
+                  <th>Atitikimas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="td-url">2A-312/2023 Darbo ginčas</td>
+                  <td>LAT</td>
+                  <td>99%</td>
+                </tr>
+                <tr>
+                  <td class="td-url">3K-3-445/2022 Atlyginimo...</td>
+                  <td>Apygarda</td>
+                  <td>94%</td>
+                </tr>
+                <tr>
+                  <td class="td-url">2A-188/2023 Darbo sutartis</td>
+                  <td>Apygarda</td>
+                  <td>91%</td>
+                </tr>
+                <tr>
+                  <td class="td-url">eI2-1820/2021 Atleidimas</td>
+                  <td>Apylinkė</td>
+                  <td>87%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="hero-quote">
+          <blockquote>Teisora sutaupė mums dešimtis valandų per savaitę. Precedentų paieška, kuri anksčiau užimdavo dieną, dabar trunka minutes.</blockquote>
+          <div class="quote-author">
+            <div class="quote-av">👩‍⚖️</div>
+            <div>
+              <div class="quote-name">Advokatas, Vilnius</div>
+              <div class="quote-org">Teisų advokatų kontora</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS ═════════════════════════════════════════════════════ -->
+<div class="stats-band">
+  <div class="rapper">
+    <div class="stats-row">
+      <div class="stat-item"><strong>1,2M+</strong><span>Nutarimų bazėje</span></div>
+      <div class="stat-item"><strong>~2 sek.</strong><span>Vidutinis paieškos laikas</span></div>
+      <div class="stat-item"><strong>3 instancijos</strong><span>Apylinkės, apygardos, LAT</span></div>
+      <div class="stat-item"><strong>MCP</strong><span>Claude, Cursor, Zed ir kt.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ KAIP VEIKIA ═══════════════════════════════════════════════ -->
+<section id="kaip-veikia">
+  <div class="rapper">
+
+    <div class="section-head">
+      <div class="badge-button">Kaip tai veikia</div>
+      <h2>Problema. Sprendimas. Rezultatas.</h2>
+      <p>Teisinė analizė užima dešimtis valandų. Teisora sumažina jas iki minučių.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <span class="card-label">Problema</span>
+        <h3>Tradicinė paieška – lėta ir netiksli</h3>
+        <p>Teisininkai ir advokatai praleidžia dešimtis valandų rankiniu būdu ieškodami atitinkamų nutarimų per kelias skirtingas sistemas. Rezultatai – neišsamūs, o laikas – brangus.</p>
+      </div>
+      <div class="card dark">
+        <span class="card-label">Sprendimas</span>
+        <h3>AI paieška natūralia kalba</h3>
+        <p>Teisora suteikia tiesioginę prieigą prie visų Lietuvos teismų nutarimų per MCP serverį. Klausk Claude natūraliai ir gauk tikslias nuorodas su kontekstu per sekundes.</p>
+      </div>
+    </div>
+
+    <div class="three-col">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <h4>Susikurk paskyrą</h4>
+        <p>Registruokis per Google arba el. paštą. Iš karto gausi savo asmeninį MCP serverio URL ir autentikacijos raktą.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <h4>Sukonfigūruok Claude</h4>
+        <p>Įdėk savo MCP URL į Claude Desktop arba kitą palaikomą AI įrankį. Tai užtrunka mažiau nei minutę.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <h4>Klausk ir gauk atsakymus</h4>
+        <p>Rašyk natūraliai: „Rask nutarimus dėl darbo ginčų" – ir gauk tikslias nuorodas su citatomis.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ KAINA ══════════════════════════════════════════════════════ -->
+<section id="kaina" class="alt">
+  <div class="rapper">
+    <div class="section-head" style="text-align:center">
+      <div class="badge-button">Kainodara</div>
+      <h2>Paprasta ir skaidri</h2>
+      <p style="margin:0 auto">Vienas planas. Visa prieiga. Jokių paslėptų mokesčių.</p>
+    </div>
+    <div class="pricing-wrap">
+      <div class="plan-card">
+        <div class="badge-button alt">Metinis planas</div>
+        <p class="plan-name">Teisora Pro</p>
+        <div class="plan-price">
+          <span class="sym">€</span><span class="amt">100</span>
+        </div>
+        <p class="plan-period">vienam naudotojui per metus</p>
+        <ul class="plan-list">
+          <li>Prieiga prie 1,2M+ nutarimų bazės</li>
+          <li>Kontekstinė AI paieška lietuvių kalba</li>
+          <li>Asmeninis MCP serverio URL</li>
+          <li>Autentikacijos kredencialai</li>
+          <li>Claude Desktop, Cursor, Zed integracija</li>
+          <li>Neriboti užklausų kiekiai</li>
+          <li>El. pašto palaikymas</li>
+        </ul>
+        <a href="#registracija" class="button" style="display:block;width:100%;text-align:center">Pradėti – €100 / metams</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ APIE MUS ═══════════════════════════════════════════════════ -->
+<section id="apie-mus">
+  <div class="rapper">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="badge-button">Apie mus</div>
+        <h2>Kuriame teisinę ateitį Lietuvai</h2>
+        <p>Teisora – tai komanda iš teisinės ir technologijų srities, tikinti, kad prieiga prie teisinės informacijos turi būti greita, tiksli ir prieinama visiems.</p>
+        <p>Mes matome, kiek laiko teisininkai eikvoja rankinei paieškai, ir žinome, kad tai galima pakeisti. MCP technologija leidžia mums sujungti geriausius AI įrankius su išsamia Lietuvos teismų baze.</p>
+        <p>Mūsų tikslas – kad kiekvienas Lietuvos advokatas ir teisininkas galėtų dirbti greičiau, tiksliau ir efektyviau.</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-av">👨‍⚖️</div>
+          <h4>Teisinė ekspertizė</h4>
+          <p>Gilios žinios apie LT teismų sistemą ir praktiką</p>
+        </div>
+        <div class="team-card">
+          <div class="team-av">🤖</div>
+          <h4>AI inžinerija</h4>
+          <p>MCP ir vektorinių duomenų bazių specialistai</p>
+        </div>
+        <div class="team-card">
+          <div class="team-av">🔍</div>
+          <h4>Paieška ir duomenys</h4>
+          <p>Semantinės paieškos sistemų kūrėjai</p>
+        </div>
+        <div class="team-card">
+          <div class="team-av">🛡️</div>
+          <h4>Privatumas</h4>
+          <p>GDPR ir duomenų apsaugos principai</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═════════════════════════════════════════════════════ -->
+<footer>
+  <div class="rapper">
+    <div class="footer-row">
+      <a href="#produktas" class="f-logo">Teiso<span>ra</span></a>
+      <div class="f-links">
+        <a href="#produktas">Produktas</a>
+        <a href="#kaip-veikia">Kaip veikia</a>
+        <a href="#kaina">Kaina</a>
+        <a href="#apie-mus">Apie mus</a>
+      </div>
+      <p class="f-copy">© 2026 Teisora. Visos teisės saugomos.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MODAL: REGISTRACIJA
+════════════════════════════════════════════════════════════════ -->
+<div id="registracija" class="overlay">
+  <div class="modal-box">
+    <a href="#produktas" class="modal-x">✕</a>
+    <h2>Pradėti naudoti</h2>
+    <p class="modal-sub">Susikurk paskyrą ir gauk prieigą per 2 minutes</p>
+
+    <a href="#dashboard" class="btn-google">
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      Tęsti su Google
+    </a>
+
+    <div class="sep">arba</div>
+
+    <div class="field">
+      <label for="r-email">El. paštas</label>
+      <input id="r-email" type="email" class="element" placeholder="vardas@advokatai.lt">
+    </div>
+    <div class="field">
+      <label for="r-pw">Slaptažodis</label>
+      <input id="r-pw" type="password" class="element" placeholder="Sukurkite slaptažodį">
+    </div>
+    <a href="#dashboard" class="button" style="display:block;width:100%;text-align:center;margin-top:var(--space-lg)">Registruotis</a>
+    <p class="modal-foot">Jau turi paskyrą? <a href="#dashboard">Prisijungti</a></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MODAL: DASHBOARD
+════════════════════════════════════════════════════════════════ -->
+<div id="dashboard" class="overlay">
+  <div class="modal-box">
+    <a href="#produktas" class="modal-x">✕</a>
+    <h2>Mano paskyra</h2>
+    <p class="modal-sub">vardas@advokatai.lt · Teisora Pro · galioja iki 2027-06-12</p>
+
+    <div class="dash-s">
+      <span class="dash-label">MCP serverio URL</span>
+      <div class="code-box">https://mcp.teisora.lt/v1/sse?token=sk-teisora-xxxxxxxxxxxx</div>
+    </div>
+
+    <div class="dash-s">
+      <span class="dash-label">Autentikacijos raktas</span>
+      <div class="code-box">sk-teisora-xxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+    </div>
+
+    <div class="dash-s">
+      <span class="dash-label">Užklausų kiekis šį mėnesį</span>
+      <div class="usage-track"><div class="usage-fill"></div></div>
+      <div class="usage-meta"><span>230 panaudota</span><span>Neribota</span></div>
+    </div>
+
+    <div class="dash-s">
+      <span class="dash-label">Konfigūracija Claude Desktop</span>
+      <ol class="cfg-list">
+        <li>Atidaryk Claude Desktop → Settings → Developer → Edit Config</li>
+        <li>Įkopijuok šį JSON į <code>claude_desktop_config.json</code> ir įdėk savo raktą</li>
+        <li>Iš naujo paleisk Claude Desktop</li>
+        <li>Klausk ir gauk tikslias nuorodas į nutarimus</li>
+      </ol>
+      <div class="code-box" style="margin-top:var(--space-md); font-size:0.72rem">{
+  "mcpServers": {
+    "teisora": {
+      "url": "https://mcp.teisora.lt/v1/sse",
+      "headers": {
+        "Authorization": "Bearer sk-teisora-xxx"
+      }
+    }
+  }
+}</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
