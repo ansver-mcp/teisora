@@ -417,7 +417,7 @@ section.alt { background: var(--gray-1); border-top: var(--border-sm) solid var(
 }
 
 /* ── HOW IT WORKS ─────────────────────────────── */
-#kaip-veikia { background: var(--gray-0); padding-top: 0; }
+#kaip-veikia { background: var(--gray-0); }
 .section-head { margin-bottom: var(--space-3x); }
 .section-head h2 { margin-bottom: var(--space-lg); }
 .section-head p { font-size: var(--font-size-lg); max-width: 34rem; }
@@ -447,6 +447,7 @@ section.alt { background: var(--gray-1); border-top: var(--border-sm) solid var(
 }
 .card.dark .card-label { color: var(--purple-5); }
 .card h3 { font-size: var(--font-size-h4); margin-bottom: var(--space-lg); }
+.card h4 { margin-bottom: var(--space-lg); }
 .card.dark h3 { color: var(--gray-1); }
 .card p { font-size: var(--font-size-sm); line-height: var(--leading); color: var(--gray-6); }
 .card.dark p { color: var(--gray-5); }
