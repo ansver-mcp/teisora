@@ -473,7 +473,22 @@ section.alt { background: var(--gray-1); border-top: var(--border-sm) solid var(
 
 /* ── PRICING ──────────────────────────────────── */
 #kaina { background: var(--gray-1); }
-.pricing-wrap { max-width: 26rem; margin: 0 auto; }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2x);
+  align-items: start;
+}
+
+.pricing-trust h3 {
+  font-size: var(--font-size-h4);
+  margin-bottom: var(--space-xl);
+}
+
+.pricing-trust .card { margin-bottom: var(--space-lg); }
+.pricing-trust .card:last-child { margin-bottom: 0; }
+
 .plan-card {
   background: var(--gray-0);
   border: var(--border-sm) solid var(--gray-3);
@@ -705,7 +720,7 @@ code {
 
 /* ── RESPONSIVE ──────────────────────────────── */
 @media (max-width: 720px) {
-  .hero-grid, .two-col, .three-col, .about-grid, .team-grid, .features-grid { grid-template-columns: 1fr; }
+  .hero-grid, .two-col, .three-col, .about-grid, .team-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
   .hero-grid { gap: var(--space-2x); }
   .about-grid { gap: 2rem; }
   .morph-nav-items .morph-nav-link:not(:last-child) { display: none; }
