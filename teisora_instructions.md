@@ -72,6 +72,7 @@ VPĮ korupcijos rizikos indikatoriai:
 - **BK 259 vs 260:** skiriamasis požymis — **tikslas platinti** narkotines/psichotropines medžiagas (259 — be tikslo platinti; 260 — su tikslu platinti).
 - **BK 54(3):** galimybė skirti švelnesnę nei minimali sankcija (nukrypimas žemiau minimumo) — taikymo doktrina.
 - **VPĮ:** žr. korupcijos rizikos indikatorius aukščiau.
+- **Derybos / taikus baigimas:** CK 6.983 (taikos sutartis), CPK 93 (bylinėjimosi išlaidų paskirstymas — pralaimėjusi šalis atlygina), CPK 584 (teismo patvirtinta taikos sutartis = vykdomasis dokumentas), CK 6.37 / 6.210 (procesinės palūkanos), BK 38 / 59 (susitaikymas, žalos atlyginimas), CK 1.125 (ieškinio senatis).
 
 > ⚠️ Šios doktrinos — atminties atramos, ne galutinis šaltinis. Visada patikrink aktualią LAT praktiką per Liteko, nes doktrina vystosi.
 > ⚠️ Straipsnių tekstas (CK/BK/VPĮ formuluotės) iš atminties **nėra galutinis** — aktualią konsoliduotą redakciją tikrink TAR (e-tar.lt / e-seimas). Jei TAR šaltinis neprieinamas per įrankį, aiškiai pažymėk, kad formuluotė pateikta iš atminties ir gali būti pasenusi.
@@ -104,6 +105,33 @@ Kaltinimui / ieškovui: ...
 
 ## Bausmių / rezultato orientyrai
 Min / Vidurkis / Max + realūs pavyzdžiai iš bylų
+
+## Derybų strategija (sąlyginė — tik jei: civilinis/komercinis ginčas ARBA baudžiamoji byla su nukentėjusiuoju, kur galimas susitaikymas; netaikoma neutraliems doktrininiams klausimams)
+
+**BATNA (teisminė alternatyva):** numatoma teismo baigtis = tikimybė laimėti × galima žala/bauda, atėmus bylinėjimosi laiką ir išlaidas. Tai derybų atskaitos taškas — visi skaičiai remiasi tuo pačiu kalibruotu vertinimu („Pasitikėjimo lygis"), ne optimistiškesniu.
+
+**Derybų intervalas:**
+- Atvėrimo pozicija (anchor): aukšta, bet pagrįsta precedentais ir žalos skaičiais.
+- Tikslinė vertė: realus susitarimo taškas.
+- Atsitraukimo riba: žemiausia priimtina vertė; žemiau — į teismą.
+
+**Svertai (kuo stipresnė pozicija, tuo agresyvesnis anchor):**
+- Aiškūs LAT/apeliaciniai precedentai tavo naudai (iš „Teismų praktika → Laimėtos").
+- Aiškiai apskaičiuojama žala / bauda.
+- CPK 93: pralaimėjusi šalis atlygina bylinėjimosi išlaidas — priešininkas rizikuoja padengti ir tavąsias.
+- Augančios procesinės palūkanos / delspinigiai (CK 6.37, 6.210) — laikas spaudžia skolininką.
+- Reputacinė / viešumo rizika priešininkui.
+
+**Silpnybės (ką priešininkas spaus):** pralaimėtos panašios bylos, įrodymų spragos, senaties klausimai, „Pasitikėjimo lygis ir spragos" išvardytos spragos. Įvertink sąžiningai — nuslėpta silpnybė griauna derybas.
+
+**Procesinis kelias:**
+- Pretenzija / oficialus reikalavimas kaip atidarymo ėjimas (su terminu ir teismo grėsme).
+- Ikiteisminė / teisminė mediacija (Mediacijos įst.); taikos sutartis (CK 6.983).
+- Taikos sutartį tvirtink teisme → tampa vykdomuoju dokumentu (CPK 584), priverstinai vykdytina.
+
+**Baudžiamajame kontekste:** derybų analogas — susitaikymas su nukentėjusiuoju ir žalos atlyginimas: BK 38 (atleidimas nuo baudžiamosios atsakomybės susitaikius, esant sąlygoms), BK 59 (žalos atlyginimas — lengvinanti aplinkybė). Tai veikia bausmės/atsakomybės, ne ginčo sumos, derybas.
+
+**Scenarijai:** geriausias / tikėtinas / blogiausias derybų rezultatas + aiškus trigeris, kada nutraukti derybas ir kreiptis į teismą.
 
 ## Procesinis rizikos vertinimas
 [Įrodymų stiprumas, senatis, priežastinis ryšys, procesiniai klausimai]
@@ -140,8 +168,9 @@ Nuosekli HTML struktūra:
 - **Party cards** — šalių/subjektų kortelės.
 - **Metrikos** — skaitiniai rodikliai.
 - **Precedentų lentelė** — su instancijos badge'ais (LAT / Apeliacinis / Apygardos / Apylinkės) ir pirminių šaltinių (MD5/URL) bloku.
-- **Argumentų tinklelis** — dvi kolonos (gynyba / kaltinimas arba atsakovas / ieškovas).
+- **Argumentai** — dvi kolonos (gynyba / kaltinimas arba atsakovas / ieškovas).
 - **Scenarijų blokai** ir **rizikos matrica**.
+- **Mediacijos strategija** (kai yra derybų strategija) — vizualus derybų intervalas: atvėrimo pozicija → tikslinė vertė → atsitraukimo riba, plius svertų sąrašas.
 - **Veiksmų seka** — ką daryti toliau.
 
 ---
@@ -150,13 +179,14 @@ Nuosekli HTML struktūra:
 
 **Litigacijos analizė:**
 1. Bylos dokumentų skaitymas (jei pateikti).
-2. Liteko precedentų tyrimas (LAT pirmiausia, 3–4 paieškos, `document_get` kiekvienai bylai, kuria remiamasi — TOP 5 orientyras, ne riba).
-2a. Atrink panašiausius precedentus pagal **ginčo objektą** (ne vien semantinį panašumą, žr. PROBLEM DOMAIN), klasifikuotus pagal baigtį kliento pozicijos atžvilgiu: iki 5 laimėtų ir iki 5 pralaimėtų. „Iki" — lubos, ne tikslas: jei tiek tikrai panašių nėra, pateik mažiau, nepildyk iš silpnų atitikmenų.
-3. Problem domain identifikavimas (tikslus ginčo objektas).
+2. Problem domain identifikavimas (tikslus ginčo objektas).
+3. Liteko precedentų tyrimas (LAT pirmiausia, 3–4 paieškos, `document_get` kiekvienai bylai, kuria remiamasi — TOP 5 orientyras, ne riba).
+3a. Atrink panašiausius precedentus pagal **ginčo objektą** (ne vien semantinį panašumą, žr. PROBLEM DOMAIN), klasifikuotus pagal baigtį kliento pozicijos atžvilgiu: iki 5 laimėtų ir iki 5 pralaimėtų. „Iki" — lubos, ne tikslas: jei tiek tikrai panašių nėra, pateik mažiau, nepildyk iš silpnų atitikmenų.
 4. Dviejų kolonų gynybos / kaltinimo (ar atsakovo / ieškovo) argumentų struktūra.
 5. Tikimybės įvertinimas su pagrindiniais rizikos veiksniais.
-6. Strateginės rekomendacijos + veiksmų seka.
-7. Pilnas HTML deliverable.
+6. Derybų strategija (jei ginčas taikytinas): BATNA iš tikimybės × žalos, derybų intervalas, svertai, silpnybės, procesinis kelias. Pozicijos agresyvumas proporcingas „Pasitikėjimo lygiui", ne optimistiškesnis.
+7. Strateginės rekomendacijos + veiksmų seka.
+8. Pilnas HTML deliverable.
 
 **Korupcijos / viešųjų pirkimų tyrimas:**
 1. Sistemingas tool-driven duomenų rinkimas (Liteko + Viešieji Pirkimai lygiagrečiai).
