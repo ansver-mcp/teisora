@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dizaino sistema – Teisora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── Styleguide-only chrome (not part of the product CSS) ───── */
+    .ds-layout { display: grid; grid-template-columns: 14rem 1fr; gap: var(--space-3x); align-items: start; }
+    .ds-nav { position: sticky; top: calc(62px + var(--space-xl)); }
+    .ds-nav h4 { font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-5); margin-bottom: var(--space); }
+    .ds-nav a { display: block; font-size: var(--font-size-sm); color: var(--gray-7); padding: var(--space-sm) 0; transition: color var(--time); }
+    .ds-nav a:hover { color: var(--purple-7); }
+
+    .ds-section { padding-bottom: var(--space-3x); margin-bottom: var(--space-3x); border-bottom: var(--border-sm) solid var(--gray-3); }
+    .ds-section:last-child { border-bottom: none; }
+    .ds-section > h2 { margin-bottom: var(--space-sm); }
+    .ds-lede { color: var(--gray-6); font-size: var(--font-size-sm); margin-bottom: var(--space-xl); max-width: 42rem; }
+    .ds-block-label { font-size: var(--font-size-xs); text-transform: uppercase; letter-spacing: 0.07em; color: var(--gray-5); font-weight: var(--font-weight-bold); margin: var(--space-xl) 0 var(--space); }
+
+    /* Specimen frame — a neutral stage to show a component on. */
+    .ds-frame {
+      border: var(--border-sm) solid var(--gray-3); border-radius: var(--border-rad);
+      padding: var(--space-xl); background: var(--gray-0);
+      display: flex; flex-wrap: wrap; gap: var(--space-lg); align-items: center;
+    }
+    .ds-frame.col { flex-direction: column; align-items: stretch; }
+    .ds-frame.tint { background: var(--gray-1); }
+
+    /* Color swatches */
+    .ds-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr)); gap: var(--space); }
+    .ds-swatch { border: var(--border-sm) solid var(--gray-3); border-radius: var(--border-rad-sm); overflow: hidden; }
+    .ds-swatch .chip { height: 4rem; }
+    .ds-swatch .meta { padding: var(--space) var(--space-md); }
+    .ds-swatch .nm { font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); color: var(--gray-9); }
+    .ds-swatch .hx { font-size: var(--font-size-xxs); color: var(--gray-5); font-family: var(--font-mono); }
+
+    /* Token table */
+    .ds-table { width: 100%; border-collapse: collapse; }
+    .ds-table th { text-align: left; font-size: var(--font-size-xxs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-5); padding: var(--space-sm) var(--space-lg) var(--space-sm) 0; border-bottom: var(--border-sm) solid var(--gray-3); }
+    .ds-table td { font-size: var(--font-size-sm); color: var(--gray-7); padding: var(--space-md) var(--space-lg) var(--space-md) 0; border-bottom: var(--border-sm) solid var(--gray-2); vertical-align: middle; }
+    .ds-table td:first-child { font-family: var(--font-mono); font-size: var(--font-size-xs); color: var(--purple-7); white-space: nowrap; }
+    .ds-bar { height: 0.9rem; background: var(--purple-4); border-radius: 2px; }
+
+    /* Type specimens */
+    .ds-type-row { display: flex; align-items: baseline; gap: var(--space-xl); padding: var(--space) 0; border-bottom: var(--border-sm) solid var(--gray-2); }
+    .ds-type-row .tag { font-family: var(--font-mono); font-size: var(--font-size-xxs); color: var(--gray-5); width: 9rem; flex-shrink: 0; }
+
+    .ds-do-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+    .ds-callout { border-radius: var(--border-rad-sm); padding: var(--space-lg) var(--space-xl); font-size: var(--font-size-sm); }
+    .ds-callout.do { background: var(--green-fade); border: var(--border-sm) solid var(--green); color: var(--gray-8); }
+    .ds-callout.dont { background: var(--purple-2); border: var(--border-sm) solid var(--purple-4); color: var(--gray-8); }
+    .ds-callout strong { display: block; margin-bottom: var(--space-sm); color: var(--gray-10); }
+
+    @media (max-width: 720px) {
+      .ds-layout { grid-template-columns: 1fr; gap: var(--space-xl); }
+      .ds-nav { position: static; }
+      .ds-do-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ════════════════════════════════════════════════════ -->
+<header>
+  <div class="rapper">
+    <div class="site-header">
+      <a href="index.html" class="header-logo">Teiso<span>ra</span></a>
+      <nav class="morph-nav">
+        <div class="morph-nav-items">
+          <a href="index.html" class="morph-nav-link">Pradžia</a>
+          <a href="login.html" class="morph-nav-link">Prisijungti</a>
+          <a href="register.html" class="morph-nav-link">Registruotis</a>
+        </div>
+      </nav>
+      <div class="header-right">
+        <span class="badge-button alt">Dizaino sistema</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section style="padding-top: calc(62px + var(--space-3x));">
+  <div class="rapper">
+
+    <div class="features-head" style="text-align:left; margin: 0 0 var(--space-3x); max-width:46rem;">
+      <h1>Teisora dizaino sistema</h1>
+      <p style="margin-top: var(--space-lg);">Vienas šaltinis spalvoms, tipografijai, tarpams ir komponentams. Visi pavyzdžiai apačioje atvaizduojami tiesiogiai per <code>styles.css</code> — ką matote, tą ir gausite produkte.</p>
+    </div>
+
+    <div class="ds-layout">
+
+      <!-- ── SIDE NAV ─────────────────────────────────────────── -->
+      <aside class="ds-nav">
+        <h4>Pamatai</h4>
+        <a href="#spalvos">Spalvos</a>
+        <a href="#tipografija">Tipografija</a>
+        <a href="#tarpai">Tarpai</a>
+        <a href="#kontūrai">Kontūrai ir kampai</a>
+        <h4 style="margin-top: var(--space-lg);">Komponentai</h4>
+        <a href="#mygtukai">Mygtukai</a>
+        <a href="#zenkleliai">Ženkleliai</a>
+        <a href="#formos">Formų laukai</a>
+        <a href="#korteles">Kortelės</a>
+        <a href="#duomenys">Duomenų blokai</a>
+        <a href="#auth">Autentikacija</a>
+      </aside>
+
+      <!-- ── CONTENT ──────────────────────────────────────────── -->
+      <div>
+
+        <!-- COLORS -->
+        <section id="spalvos" class="ds-section">
+          <h2>Spalvos</h2>
+          <p class="ds-lede">Neutralūs pilkų tonų atspalviai sudaro sąsajos pagrindą; sodri indigo-violetinė <code>--purple-7</code> žymi veiksmus ir akcentus, švelni mėtinė <code>--green</code> naudojama taupiai — patvirtinimams ir teigiamiems signalams.</p>
+
+          <div class="ds-block-label">Neutralūs (gray)</div>
+          <div class="ds-swatches">
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-0); border-bottom:1px solid var(--gray-3)"></div><div class="meta"><div class="nm">gray-0</div><div class="hx">#FFFFFF</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-1)"></div><div class="meta"><div class="nm">gray-1</div><div class="hx">#F6F7FB</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-2)"></div><div class="meta"><div class="nm">gray-2</div><div class="hx">#F0F1F8</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-3)"></div><div class="meta"><div class="nm">gray-3</div><div class="hx">#ECECF2</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-4)"></div><div class="meta"><div class="nm">gray-4</div><div class="hx">#D8D9E3</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-5)"></div><div class="meta"><div class="nm">gray-5</div><div class="hx">#9CA3AF</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-6)"></div><div class="meta"><div class="nm">gray-6</div><div class="hx">#6B7280</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-7)"></div><div class="meta"><div class="nm">gray-7</div><div class="hx">#4B5563</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-8)"></div><div class="meta"><div class="nm">gray-8</div><div class="hx">#374151</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-9)"></div><div class="meta"><div class="nm">gray-9</div><div class="hx">#1F2937</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-10)"></div><div class="meta"><div class="nm">gray-10</div><div class="hx">#111827</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--gray-11)"></div><div class="meta"><div class="nm">gray-11</div><div class="hx">#1B1B2F</div></div></div>
+          </div>
+
+          <div class="ds-block-label">Pirminė (purple)</div>
+          <div class="ds-swatches">
+            <div class="ds-swatch"><div class="chip" style="background:var(--purple-2)"></div><div class="meta"><div class="nm">purple-2</div><div class="hx">#EEF0FD</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--purple-3)"></div><div class="meta"><div class="nm">purple-3</div><div class="hx">#DFE1FB</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--purple-4)"></div><div class="meta"><div class="nm">purple-4</div><div class="hx">#B8B3FC</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--purple-5)"></div><div class="meta"><div class="nm">purple-5</div><div class="hx">#9B93FB</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--purple)"></div><div class="meta"><div class="nm">purple</div><div class="hx">#7B6AF5</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--purple-7)"></div><div class="meta"><div class="nm">purple-7 ★</div><div class="hx">#5C3DF7</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--purple-8)"></div><div class="meta"><div class="nm">purple-8</div><div class="hx">#4B2EE8</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--purple-9)"></div><div class="meta"><div class="nm">purple-9</div><div class="hx">#3A20C7</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--purple-10)"></div><div class="meta"><div class="nm">purple-10</div><div class="hx">#2D18A0</div></div></div>
+          </div>
+
+          <div class="ds-block-label">Akcentas (green)</div>
+          <div class="ds-swatches">
+            <div class="ds-swatch"><div class="chip" style="background:var(--green)"></div><div class="meta"><div class="nm">green</div><div class="hx">#7FDCA4</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--green-fade)"></div><div class="meta"><div class="nm">green-fade</div><div class="hx">18% alpha</div></div></div>
+            <div class="ds-swatch"><div class="chip" style="background:var(--purple-fade)"></div><div class="meta"><div class="nm">purple-fade</div><div class="hx">10% alpha</div></div></div>
+          </div>
+        </section>
+
+        <!-- TYPOGRAPHY -->
+        <section id="tipografija" class="ds-section">
+          <h2>Tipografija</h2>
+          <p class="ds-lede">Šriftas — <strong>Inter</strong> (300–700). Antraštės naudoja svorį 600 ir neigiamą raidžių tarpą; pagrindinis tekstas — 400 su patogiu 1.65 eilučių aukščiu.</p>
+          <div class="ds-frame col">
+            <div class="ds-type-row"><span class="tag">h1 · 3rem · 600</span><span class="h1">Teisinė paieška</span></div>
+            <div class="ds-type-row"><span class="tag">h2 · 2.125rem · 600</span><span class="h2">Teisinė paieška</span></div>
+            <div class="ds-type-row"><span class="tag">h3 · 1.875rem · 600</span><span class="h3">Teisinė paieška</span></div>
+            <div class="ds-type-row"><span class="tag">h4 · 1.375rem · 600</span><span class="h4">Teisinė paieška</span></div>
+            <div class="ds-type-row"><span class="tag">lg · 1.125rem · 400</span><span style="font-size:var(--font-size-lg)">Teisinė paieška lietuvių kalba</span></div>
+            <div class="ds-type-row"><span class="tag">base · 1.05rem · 400</span><span style="font-size:var(--font-size)">Teisinė paieška lietuvių kalba</span></div>
+            <div class="ds-type-row"><span class="tag">sm · 0.875rem · 400</span><span style="font-size:var(--font-size-sm)">Teisinė paieška lietuvių kalba</span></div>
+            <div class="ds-type-row"><span class="tag">xs · 0.8rem · 400</span><span style="font-size:var(--font-size-xs)">Teisinė paieška lietuvių kalba</span></div>
+            <div class="ds-type-row" style="border-bottom:none"><span class="tag">xxs · 0.75rem · 400</span><span style="font-size:var(--font-size-xxs)">Teisinė paieška lietuvių kalba</span></div>
+          </div>
+        </section>
+
+        <!-- SPACING -->
+        <section id="tarpai" class="ds-section">
+          <h2>Tarpai</h2>
+          <p class="ds-lede">Vienas tarpų masyvas valdo visus paddingus ir gap'us. Naudokite žetonus, ne pikselius.</p>
+          <table class="ds-table">
+            <thead><tr><th>Žetonas</th><th>Reikšmė</th><th style="width:55%">Mastelis</th></tr></thead>
+            <tbody>
+              <tr><td>--space-xs</td><td>0.025rem</td><td><div class="ds-bar" style="width:0.4rem"></div></td></tr>
+              <tr><td>--space-sm</td><td>0.25rem</td><td><div class="ds-bar" style="width:0.5rem"></div></td></tr>
+              <tr><td>--space</td><td>0.5rem</td><td><div class="ds-bar" style="width:1rem"></div></td></tr>
+              <tr><td>--space-md</td><td>0.675rem</td><td><div class="ds-bar" style="width:1.35rem"></div></td></tr>
+              <tr><td>--space-lg</td><td>1rem</td><td><div class="ds-bar" style="width:2rem"></div></td></tr>
+              <tr><td>--space-xl</td><td>1.5rem</td><td><div class="ds-bar" style="width:3rem"></div></td></tr>
+              <tr><td>--space-2x</td><td>3rem</td><td><div class="ds-bar" style="width:6rem"></div></td></tr>
+              <tr><td>--space-3x</td><td>4rem</td><td><div class="ds-bar" style="width:8rem"></div></td></tr>
+              <tr><td>--space-4x</td><td>6rem</td><td><div class="ds-bar" style="width:12rem"></div></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- BORDERS / RADII -->
+        <section id="kontūrai" class="ds-section">
+          <h2>Kontūrai ir kampai</h2>
+          <p class="ds-lede">Plonas 1px kontūras (<code>--gray-3</code>) atskiria paviršius; kampai apvalinami trim žetonais.</p>
+          <div class="ds-frame">
+            <div style="text-align:center">
+              <div style="width:5rem; height:5rem; background:var(--gray-2); border:var(--border) solid var(--gray-4); border-radius:var(--border-rad-sm)"></div>
+              <div class="ds-swatch" style="border:none; margin-top:var(--space-sm)"><div class="nm">rad-sm</div><div class="hx">0.5rem</div></div>
+            </div>
+            <div style="text-align:center">
+              <div style="width:5rem; height:5rem; background:var(--gray-2); border:var(--border) solid var(--gray-4); border-radius:var(--border-rad)"></div>
+              <div class="ds-swatch" style="border:none; margin-top:var(--space-sm)"><div class="nm">rad</div><div class="hx">0.875rem</div></div>
+            </div>
+            <div style="text-align:center">
+              <div style="width:5rem; height:5rem; background:var(--gray-2); border:var(--border) solid var(--gray-4); border-radius:var(--border-rad-full)"></div>
+              <div class="ds-swatch" style="border:none; margin-top:var(--space-sm)"><div class="nm">rad-full</div><div class="hx">100rem</div></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- BUTTONS -->
+        <section id="mygtukai" class="ds-section">
+          <h2>Mygtukai</h2>
+          <p class="ds-lede">Pirminis veiksmas — vientisas violetinis <code>.button</code>. Antriniai variantai mažina svorį iki konteksto. Visi turi hover būseną ir matomą fokuso žiedą.</p>
+
+          <div class="ds-block-label">Variantai</div>
+          <div class="ds-frame">
+            <button class="button">Pirminis</button>
+            <button class="button lg">Didelis (lg)</button>
+            <button class="button sm">Mažas (sm)</button>
+            <button class="button warn">Antrinis (warn)</button>
+            <button class="button outline">Kontūrinis (outline)</button>
+            <button class="button alt">Tamsus (alt)</button>
+          </div>
+
+          <div class="ds-block-label">Pilno pločio (formoms)</div>
+          <div class="ds-frame col" style="max-width:22rem">
+            <button class="button auth-submit" style="margin-top:0">Prisijungti</button>
+          </div>
+        </section>
+
+        <!-- BADGES -->
+        <section id="zenkleliai" class="ds-section">
+          <h2>Ženkleliai ir žymės</h2>
+          <p class="ds-lede">Apvalūs „pill" ženkleliai naudojami antraštėms-akims ir būsenoms.</p>
+          <div class="ds-frame">
+            <span class="badge-button">Kainodara</span>
+            <span class="badge-button alt">Metinis planas</span>
+            <span class="new-tag">Naujos galimybės</span>
+          </div>
+        </section>
+
+        <!-- FORMS -->
+        <section id="formos" class="ds-section">
+          <h2>Formų laukai</h2>
+          <p class="ds-lede">Visi įvedimo laukai naudoja <code>.element</code> bazę: 1px kontūras, violetinis fokuso žiedas. Etiketės — privalomos ir susietos su <code>for/id</code>.</p>
+          <div class="ds-frame col" style="max-width:24rem">
+            <div class="field">
+              <label for="ds-email">El. paštas</label>
+              <input id="ds-email" type="email" class="element" placeholder="vardas@advokatai.lt">
+            </div>
+            <div class="field">
+              <div class="field-row">
+                <label for="ds-pw">Slaptažodis</label>
+                <a href="#formos" class="forgot">Pamiršote?</a>
+              </div>
+              <input id="ds-pw" type="password" class="element" placeholder="Jūsų slaptažodis">
+            </div>
+            <div class="sep">arba</div>
+            <a href="#formos" class="btn-google">
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              Tęsti su Google
+            </a>
+          </div>
+        </section>
+
+        <!-- CARDS -->
+        <section id="korteles" class="ds-section">
+          <h2>Kortelės</h2>
+          <p class="ds-lede">Universali <code>.card</code> bazė, žingsnių kortelė su numeriu ir funkcijų eilutė su žalia varnele.</p>
+
+          <div class="ds-block-label">Žingsnių kortelės</div>
+          <div class="ds-frame" style="background:transparent; border:none; padding:0">
+            <div class="three-col" style="width:100%">
+              <div class="step-card">
+                <div class="step-num">01</div>
+                <h4>Susikurk paskyrą</h4>
+                <p>Registruokis per Google arba el. paštą ir gauk MCP URL.</p>
+              </div>
+              <div class="step-card">
+                <div class="step-num">02</div>
+                <h4>Sukonfigūruok Claude</h4>
+                <p>Įdėk savo MCP URL į Claude Desktop. Užtruks mažiau nei minutę.</p>
+              </div>
+              <div class="step-card">
+                <div class="step-num">03</div>
+                <h4>Klausk ir gauk</h4>
+                <p>Įkelk teisinę situaciją ir gauk analizę su nuorodomis.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="ds-block-label">Funkcijų eilutė</div>
+          <div class="ds-frame col">
+            <div class="feature-item">
+              <div class="feature-check">✓</div>
+              <div>
+                <h4>Pirminiai šaltiniai</h4>
+                <p>Kiekvienas rezultatas pateikiamas su tiesiogine citata ir nuoroda į nutarimo tekstą.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DATA -->
+        <section id="duomenys" class="ds-section">
+          <h2>Duomenų blokai</h2>
+          <p class="ds-lede">Rezultatų lentelė, kodo blokas, naudojimo juosta ir statistika — naudojami produkte ir paskyros skydelyje.</p>
+
+          <div class="ds-block-label">Rezultatų lentelė</div>
+          <div class="ds-frame">
+            <table class="mockup-table" style="width:100%">
+              <thead><tr><th>Nutarimas</th><th>Instancija</th><th>Atitikimas</th></tr></thead>
+              <tbody>
+                <tr><td class="td-url">2A-312/2023 Darbo ginčas</td><td>LAT</td><td>99%</td></tr>
+                <tr><td class="td-url">3K-3-445/2022 Atlyginimo...</td><td>Apygarda</td><td>94%</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="ds-block-label">Kodo blokas</div>
+          <div class="ds-frame" style="background:transparent; border:none; padding:0">
+            <div class="code-box" style="width:100%">sk-teisora-xxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+          </div>
+
+          <div class="ds-block-label">Naudojimo juosta</div>
+          <div class="ds-frame col" style="max-width:24rem">
+            <div style="width:100%">
+              <div class="usage-track"><div class="usage-fill"></div></div>
+              <div class="usage-meta"><span>230 panaudota</span><span>Neribota</span></div>
+            </div>
+          </div>
+
+          <div class="ds-block-label">Statistika</div>
+          <div class="ds-frame">
+            <div class="stat-item"><strong>2,2M+</strong><span>Liteko teismų nutarimų</span></div>
+            <div class="stat-item"><strong>50k+</strong><span>institucijų nutarimai</span></div>
+            <div class="stat-item"><strong>MCP jungtis</strong><span>Claude, ChatGPT, Gemini</span></div>
+          </div>
+        </section>
+
+        <!-- AUTH -->
+        <section id="auth" class="ds-section">
+          <h2>Autentikacija</h2>
+          <p class="ds-lede">Prisijungimas ir registracija — <strong>atskiri pilni puslapiai</strong> (<code>login.html</code>, <code>register.html</code>), o ne perdangos modalai. Tikras puslapis su savo URL yra aiškesnis, leidžia grįžti naršyklės mygtuku ir geriau veikia mobiliajame.</p>
+          <div class="ds-do-grid">
+            <div class="ds-callout do">
+              <strong>✓ Dabar</strong>
+              „Prisijungti" veda į <code>login.html</code> — pilną puslapį su centrine korta, tikra forma, klaviatūra pasiekiamais laukais ir nuoroda į registraciją.
+            </div>
+            <div class="ds-callout dont">
+              <strong>✗ Anksčiau</strong>
+              „Prisijungti" iš karto mesdavo į <code>#dashboard</code> modalą be jokios prisijungimo formos — painu ir negrįžtama naršyklės mygtuku.
+            </div>
+          </div>
+          <div class="ds-frame" style="margin-top:var(--space-xl); gap:var(--space)">
+            <a href="login.html" class="button">Peržiūrėti login.html →</a>
+            <a href="register.html" class="button warn">Peržiūrėti register.html →</a>
+            <a href="dashboard.html" class="button outline">Peržiūrėti dashboard.html →</a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════ -->
+<footer>
+  <div class="rapper">
+    <div class="footer-row">
+      <a href="index.html" class="f-logo">Teiso<span>ra</span></a>
+      <div class="f-links">
+        <a href="index.html">Pradžia</a>
+        <a href="login.html">Prisijungti</a>
+        <a href="register.html">Registruotis</a>
+        <a href="design-system.html">Dizaino sistema</a>
+      </div>
+      <p class="f-copy">© 2026 Teisora. Dizaino sistema.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

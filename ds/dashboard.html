@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mano paskyra – Teisora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ═══ HEADER ════════════════════════════════════════════════════ -->
+<header>
+  <div class="rapper">
+    <div class="site-header">
+      <a href="index.html" class="header-logo">Teiso<span>ra</span></a>
+      <div class="header-right">
+        <span class="sign-in auth-hint">vardas@advokatai.lt</span>
+        <a href="login.html" class="button sm warn">Atsijungti</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ DASHBOARD ═════════════════════════════════════════════════ -->
+<main class="auth-main">
+  <div class="auth-card" style="max-width:34rem">
+    <div class="auth-head" style="text-align:left">
+      <h1>Mano paskyra</h1>
+      <p>vardas@advokatai.lt · Teisora Pro · galioja iki 2027-06-12</p>
+    </div>
+
+    <div class="dash-s">
+      <span class="dash-label">MCP serverio URL</span>
+      <div class="code-box">https://mcp.teisora.lt/v1/sse?token=sk-teisora-xxxxxxxxxxxx</div>
+    </div>
+
+    <div class="dash-s">
+      <span class="dash-label">Autentikacijos raktas</span>
+      <div class="code-box">sk-teisora-xxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+    </div>
+
+    <div class="dash-s">
+      <span class="dash-label">Užklausų kiekis šį mėnesį</span>
+      <div class="usage-track"><div class="usage-fill"></div></div>
+      <div class="usage-meta"><span>230 panaudota</span><span>Neribota</span></div>
+    </div>
+
+    <div class="dash-s">
+      <span class="dash-label">Konfigūracija Claude Desktop</span>
+      <ol class="cfg-list">
+        <li>Atidaryk Claude Desktop → Settings → Developer → Edit Config</li>
+        <li>Įkopijuok šį JSON į <code>claude_desktop_config.json</code> ir įdėk savo raktą</li>
+        <li>Iš naujo paleisk Claude Desktop</li>
+        <li>Klausk ir gauk tikslias nuorodas į nutarimus</li>
+      </ol>
+      <div class="code-box" style="margin-top:var(--space-md); font-size:0.72rem; white-space:pre-wrap">{
+  "mcpServers": {
+    "teisora": {
+      "url": "https://mcp.teisora.lt/v1/sse",
+      "headers": {
+        "Authorization": "Bearer sk-teisora-xxx"
+      }
+    }
+  }
+}</div>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>
